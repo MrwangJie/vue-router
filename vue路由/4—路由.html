@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title></title>
+		<style type="text/css">
+			.router-link-active{color: #f00;}
+		</style>
+		<script src="../js/vue.js"></script>
+		<script src="../js/vue-router.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/home/aa">go aa</router-link>
+			<router-link to="/home/bb">go bb</router-link>
+			<router-link to="/home/cc">go cc</router-link>
+			<router-link to="/home/dd">go dd</router-link>
+			<br />
+			<h2>
+				<router-view></router-view>
+			</h2>
+		</div>
+	</body>
+</html>
+<script>
+//1、创建路由
+	var Home={
+		template:"<div>home-----{{this.$route.params.id}}---{{msg}}</div>",
+		data:function(){
+			return{
+				msg:"默认msg数据"
+			}
+		},
+		updated :function(){
+			this.msg=this.$route.params.id;
+		}
+	};
+	var News={
+		template:"<div>news</div>"
+	}
+//2、定义路由
+	var routes=[
+		{path:"/home/:id",component:Home},
+		
+	]
+//3、实例路由
+	 var router=new VueRouter({
+		routes:routes
+	})
+//4、实例vue
+	var vm=new Vue({
+		el:"#app",
+		router:router
+	})
+</script>

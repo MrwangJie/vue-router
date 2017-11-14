@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			/*默认显示第一个导航且高亮*/
+			.router-link-exact-active{color:#f00;}
+		</style>
+		<script src="../js/vue.js"></script>
+		<script src="../js/vue-router.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="nav">
+				<router-link :to="{name:'foo'}">foo</router-link>
+				<router-link :to="{name:'bar'}">bar</router-link>
+			</div>
+			<router-view></router-view>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	//1、定义路由组件
+	var Foo={
+		template:"<h1>foo</h1>"
+	}
+	var Bar={
+		template:"<h1>bar</h1>"
+	}
+	//2、定义路由
+	var routes=[
+		{
+			name:"foo",
+			path:'/',component:Foo
+		},
+		{
+			name:"bar",
+			path:'/bar',component:Bar
+		}
+	]
+	//3、创建router 实例。然后传 配置的路由
+	var router=new VueRouter({
+		routes
+	})
+	//4、vue 实例
+	var app=new Vue({
+		el:'#app',
+		router
+	})
+	
+</script>

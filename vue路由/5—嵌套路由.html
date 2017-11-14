@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title></title>
+		<style type="text/css">
+			.router-link-active{color: #f00;}
+		</style>
+		<script src="../js/vue.js"></script>
+		<script src="../js/vue-router.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/home">go home</router-link>
+			<router-link to="/news">go news</router-link>
+			<br />
+			<div>
+				<router-view></router-view>
+			</div>
+		</div>
+	</body>
+</html>
+<script>
+//1、创建路由
+	var Home={
+		template:`
+			<div>
+				<div>home-----</div>
+				<router-link to="/home/home_a">go home--a</router-link>
+				<router-link to="/home/home_b">go home--b</router-link>
+				<router-view></router-view>
+			</div>
+		`
+	};
+	var News={
+		template:"<div>news</div>"
+	}
+	//嵌套路由
+	var Home_A={
+		template:'<ul>\
+		<li>home--a</li>\
+		<li>home--b</li>\
+		<li>home--c</li>\
+		</ul>\
+		'
+	}
+	var Home_B={
+		template:`
+		<ol>
+		<li>段落1</li>
+		<li>段落2</li>
+		<li>段落3</li>
+		<li>段落4</li>
+		</ol>
+		`
+	}
+//2、定义路由
+	var routes=[
+		{
+			path:"/home/",component:Home,
+			children:[
+				{path:"home_a",component:Home_A},
+				{path:"home_b",component:Home_B}
+			]
+		},
+		{path:"/news/",component:News}
+		
+	]
+//3、实例路由
+	 var router=new VueRouter({
+		routes:routes
+	})
+//4、实例vue
+	var vm=new Vue({
+		el:"#app",
+		router:router
+	})
+</script>

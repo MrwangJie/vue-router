@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用环境打开，。</title>
+		<style type="text/css">
+			/*默认显示第一个导航且高亮*/
+			.router-link-exact-active{color:#f00;}
+			table{width: 50%;border: 1px solid #ccc;border-collapse: collapse;text-align: center;}
+			td{border-top: 1px solid #e5e5e5;border-right: 1px solid #e5e5e5;height: 30px;}
+			tr:hover{background: #e5e5e5;}
+			a{display:block;}
+			.nav{width: 50%;text-align: center;}
+			.nav a{display: inline-block;margin-bottom: 20px;padding-left: 20px;}
+		</style>
+		<script src="../js/vue.js"></script>
+		<script src="../js/vue-router.js"></script>
+		<script src="../js/vue-resource.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<mark>用环境打开</mark>
+			<div class="nav">
+				<router-link :to="{name:'home'}">首页</router-link>
+				<router-link :to="{name:'list'}">列表页</router-link>
+				<!--<router-link :to="{name:'details'}">详情页</router-link>-->
+			</div>
+			<router-view></router-view>
+		</div>
+		<!--home-->
+		<template id="home">
+			<img src="img/shoye.png"/>
+		</template>
+		<!--list-->
+		<template id="list">
+			<div>
+				<!--<ul>
+					<li v-for="(item,index) in post">
+						<router-link :to="{name:'details', params: { id: item.lawyerId }}">
+						<span>{{index+1}}</span><span>{{item.lawyerName}}</span>
+						</router-link>
+					</li>
+				</ul>-->
+				
+				<table border="0" cellspacing="" cellpadding="">
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>执业年限</th>
+						<th>地址</th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr v-for="(item,index) in post">
+					 	
+							<td>
+								<router-link :to="{name:'details', params: { id: item.lawyerId }}">
+									{{index+1}}
+								</router-link>
+							</td>
+							<td>
+								<router-link :to="{name:'details', params: { id: item.lawyerId }}">
+									{{item.lawyerName}}{{item.lawyerId}}
+								</router-link>
+							</td>
+							
+							<td>
+								<router-link :to="{name:'details', params: { id: item.lawyerId }}">
+									{{item.criticism}}
+								</router-link>
+							</td>
+							<td>
+								<router-link :to="{name:'details', params: { id: item.lawyerId }}">
+									{{item.city}}
+								</router-link>
+							</td>
+						
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</template>
+	</body>
+</html>
+<script type="text/javascript">
+	//1、定义路由组件
+	
+	//首页
+	var Home={
+		template:"#home"
+	}
+	//列表页
+	var List={
+		template:"#list",
+		  data () {
+		    return {
+		      loading: false,
+		      post: null,
+		      error: null
+		    }
+		  },
+		  created () {
+		    // 组件创建完后获取数据，
+		    // 此时 data 已经被 observed 了
+		    this.fetchData()
+		  },
+		  watch: {
+		    // 如果路由有变化，会再次执行该方法
+		    '$route': 'fetchData'
+		  },
+		  methods:{
+			fetchData (){
+				this.$http.get('data.json').then(function(res){
+			  		// 响应成功回调
+			  		//console.log(res)
+			  		this.post = res.data.d;
+			  		//console.log(this.post)
+			  
+				}, function(res){
+				  // 响应错误回调
+				});			
+			}
+		  }
+	}
+	//详情页
+	var Details={
+		template:"<h1>details</h1>"
+	}
+	
+	//2、定义路由
+	var routes=[
+		{
+			name:"home",
+			path:'/',component:Home
+		},
+		{
+			name:"list",
+			path:'/list',component:List
+		},
+		{
+			name:"details",
+			path:'/details/:id',component:Details
+		}
+	]
+	//3、创建router 实例。然后传 配置的路由
+	var router=new VueRouter({
+		routes
+	})
+	//4、vue 实例
+	var app=new Vue({
+		el:'#app',
+		router
+	})
+</script>

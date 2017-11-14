@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title></title>
+		<style type="text/css">
+			.router-link-active{color: #f00;}
+		</style>
+		<script src="../js/vue.js"></script>
+		<script src="../js/vue-router.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/user/foo?name=zs&age=18">go to foo</router-link>
+			<router-link to="/user/bar?name=ls&age=20">go to bar</router-link>
+			<router-view></router-view>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	//1.创建组件
+	var Foo={
+		template:"<div>Foo参数：—s—{{this.$route.params.query}}</div>"
+	};
+	var Bar={
+		template:"<div>Bar参数：——</div>"
+	}
+	//2.定义路由
+	var routes=[
+		{
+			path:"/user/:data",
+			component:Foo
+		},
+		{
+			path:"/user/:data",
+			component:Bar
+		}
+	]
+	//3.实例路由
+	var router=new VueRouter({
+		routes
+	});
+	//实例vue
+	var vm=new Vue({
+		el:"#app",
+		router
+	})
+</script>
